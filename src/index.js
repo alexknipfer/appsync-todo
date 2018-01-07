@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './routes';
 import registerServiceWorker from './registerServiceWorker';
 
 import AWSAppSyncClient from "aws-appsync";
@@ -12,7 +12,7 @@ import awsConfig from './lib/awsConfig'
 const client = new AWSAppSyncClient({
     url: awsConfig.ENDPOINT,
     region: awsConfig.REGION,
-    auth: {type: AUTH_TYPE.API_KEY, apiKey: 'da1-qzJQOjh-QVWWtRSe2Iswyg'}
+    auth: {type: AUTH_TYPE.API_KEY, apiKey: awsConfig.AWS_API_KEY}
 })
 
 ReactDOM.render(
