@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export default gql`
-    query getTodos {
-        getTodos {
+    query allTodos {
+        allTodos {
             todoId
             name
             description
