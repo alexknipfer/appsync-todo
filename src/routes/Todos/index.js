@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import uuidv4 from 'uuid/v4'
 
-import TodosQuery from './queries/getTodosQuery'
+import AllTodosQuery from './queries/allTodosQuery'
 import CreateTodoMutation from './mutations/createTodoMutation'
+import NewTodoSubscription from './subscriptions/newTodoSubscription'
 
 class Todos extends Component {
+    componentWillMount() {
+        this.props.subscribeToNewTodos()
+    }
+
     createTodo = async () => {
         const { createTodo } = this.props
 
@@ -17,7 +22,7 @@ class Todos extends Component {
     }
 
     render() {
-        const { loading, todos } = this.props
+        const { loading, allTodos } = this.props
 
         if (loading) return <h3>Loading...</h3>
 
@@ -30,7 +35,7 @@ class Todos extends Component {
 
                 <button onClick={() => this.createTodo()}>Create Todo</button>
 
-                {todos.map((todo) => {
+                {allTodos && allTodos.map((todo) => {
                     return <div key={todo.todoId}>{todo.name}</div>
                 })}
             </div>
@@ -39,11 +44,23 @@ class Todos extends Component {
 }
 
 export default compose(
-    graphql(TodosQuery, {
-        props: ({ data: { loading, getTodos }}) => ({
-          loading,
-          todos: getTodos
-        })
+    graphql(AllTodosQuery, {
+        options: {
+            fetchPolicy: 'cache-and-network'
+        },
+        props: ({ data: { loading, allTodos, subscribeToMore }}) => ({
+            allTodos,
+            loading,
+            subscribeToNewTodos: params => {
+                subscribeToMore({
+                    document: NewTodoSubscription,
+                    updateQuery: (prev, { subscriptionData: { data: { newTodo } }}) => ({
+                        ...prev,
+                        allTodos: [newTodo, ...prev.allTodos.filter(todo => todo.todoId !== newTodo.todoId)]
+                    })
+                })
+            }
+        }),
     }),
 
     graphql(CreateTodoMutation, {
@@ -57,9 +74,6 @@ export default compose(
                     }
                 })
             }
-        }),
-        options: {
-            refetchQueries: [{ query: TodosQuery }],
-        }
+        })
     })
 )(Todos)
