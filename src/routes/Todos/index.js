@@ -1,21 +1,11 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import uuidv4 from 'uuid/v4'
-import { DefaultButton, TextField } from 'office-ui-fabric-react/lib'
-import {
-    FocusZone,
-    FocusZoneDirection
-  } from 'office-ui-fabric-react/lib/FocusZone'
-import { List } from 'office-ui-fabric-react/lib/List';
-import styled from 'styled-components'
 
 import AllTodosQuery from './queries/allTodosQuery'
 import CreateTodoMutation from './mutations/createTodoMutation'
 import NewTodoSubscription from './subscriptions/newTodoSubscription'
-
-const AddTodoInputSection = styled.div`
-    display: flex;
-`
+import { Input, Row, Col, Button, List } from 'antd';
 
 class Todos extends Component {
     componentWillMount() {
@@ -39,33 +29,23 @@ class Todos extends Component {
 
         return (
             <div>
-                <h3>Todos</h3>
-
-                <AddTodoInputSection>
-                    <TextField type='text' placeholder='Todo Name' id='todoName' />
-                    <TextField type='text' placeholder='Todo Description' id='todoDescription' />
-                    <DefaultButton
-                        primary={ true }
-                        data-automation-id='test'
-                        text='Create Todo'
-                        onClick={() => this.createTodo()}
-                    />
-                </AddTodoInputSection>
-
-                {allTodos &&
-                    <FocusZone direction={ FocusZoneDirection.vertical }>
-                        <List items={allTodos} onRenderCell={this.renderCell} />
-                    </FocusZone>
-                }
-            </div>
-        )
-    }
-
-    renderCell = (item) => {
-        return (
-            <div>
-                <div>{item.name}</div>
-                <div>{item.description}</div>
+                <Row>
+                    <Col span={4} offset={5}><Input type='text' placeholder='Todo Name' id='todoName' /></Col>
+                    <Col span={4} offset={1}><Input type='text' placeholder='Todo Description' id='todoDescription' /></Col>
+                    <Col span={2} offset={1}><Button type='primary' onClick={() => this.createTodo()}>Add Todo</Button></Col>
+                </Row>
+                <Row>
+                    <Col span={12} offset={6}>
+                    {allTodos &&
+                        <List
+                            header={<div>Todos</div>}
+                            bordered
+                            dataSource={allTodos}
+                            renderItem={todo => (<List.Item>{todo.name}</List.Item>)}
+                        />
+                    }
+                    </Col>
+                </Row>
             </div>
         )
     }
