@@ -3,10 +3,10 @@ import * as ReactDOM from 'react-dom'
 import App from './routes'
 import registerServiceWorker from './registerServiceWorker'
 
-import  AWSAppSyncClient from "aws-appsync";
-import { Rehydrated } from 'aws-appsync-react';
-import { AUTH_TYPE } from "aws-appsync/lib/link/auth-link";
-import { ApolloProvider } from 'react-apollo';
+import  AWSAppSyncClient from 'aws-appsync'
+import { Rehydrated } from 'aws-appsync-react'
+import { AUTH_TYPE } from 'aws-appsync/lib/link/auth-link'
+import { ApolloProvider } from 'react-apollo'
 import awsConfig from './lib/awsConfig'
 
 const client = new AWSAppSyncClient({

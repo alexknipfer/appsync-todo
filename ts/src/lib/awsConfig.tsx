@@ -6,7 +6,7 @@ declare var process: {
         REACT_APP_AWS_HOST: string
         REACT_APP_AWS_REGION: string
     }
-  }
+}
 
 interface IAwsConfigLayout {
     AWS_ACCESS_KEY_ID: string;
