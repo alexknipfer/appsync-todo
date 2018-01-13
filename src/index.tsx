@@ -8,6 +8,7 @@ import { Rehydrated } from 'aws-appsync-react'
 import { AUTH_TYPE } from 'aws-appsync/lib/link/auth-link'
 import { ApolloProvider } from 'react-apollo'
 import awsConfig from './lib/awsConfig'
+import './lib/ant.css'
 
 const client = new AWSAppSyncClient({
   url: `https://${awsConfig.HOST}${awsConfig.PATH}`,

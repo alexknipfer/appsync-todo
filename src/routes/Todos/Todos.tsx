@@ -1,6 +1,16 @@
 import * as React from 'react'
 import { v4 as uuid } from 'uuid'
 import { WrappedProps, Todo } from './types'
+import DefaultLayout from '../../components/DefaultLayout/DefaultLayout'
+import Loader from '../../components/Loader/Loader'
+import { Button, Input, List } from 'antd'
+import styled from 'styled-components'
+
+const InputSection = styled.div`
+    display: flex;
+    justify-content: space-around;
+    input { width: 40%; }
+`
 
 class Todos extends React.Component<WrappedProps> {
     componentWillMount() {
@@ -19,25 +29,35 @@ class Todos extends React.Component<WrappedProps> {
     }
 
     render() {
-        const { loading, allTodos } = this.props
+        const { allTodos, loading } = this.props
 
         if (loading) {
-            return <h3>Loading...</h3>
+            return <Loader />
         }
         
         return (
-            <div>
-                <input type="text" id="todoName" placeholder="Todo Name" />
-                <input type="text" id="todoDescription" placeholder="Todo Description" />
+            <DefaultLayout>
+                <InputSection>
+                    <Input type="text" id="todoName" placeholder="Todo Name" />
+                    <Input type="text" id="todoDescription" placeholder="Todo Description" />
+                    <Button type="primary" onClick={this.createTodo}>Add Todo</Button>
+                </InputSection>
 
-                <button onClick={this.createTodo}>Add Todo</button>
-
-                {allTodos && 
-                    allTodos.map((todo: Todo) => 
-                        <div key={todo.todoId}>{todo.name}</div>
-                    )
+                {allTodos &&
+                    <List
+                        itemLayout="horizontal"
+                        dataSource={allTodos}
+                        renderItem={(todo: Todo) => (
+                            <List.Item>
+                                <List.Item.Meta
+                                    title={todo.name}
+                                    description={todo.description}
+                                />
+                            </List.Item>
+                        )}
+                    />
                 }
-            </div>
+            </DefaultLayout>
         )
     }
 }
