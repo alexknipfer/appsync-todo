@@ -21,11 +21,11 @@ class Todos extends React.Component<WrappedProps> {
         const { createTodo } = this.props
 
         const todoId = uuid()
-
         const todoName = document.getElementById('todoName') as HTMLInputElement
         const todoDescription = document.getElementById('todoDescription') as HTMLInputElement
+        const dateCreated = new Date().toISOString()
 
-        await createTodo(todoId, todoName.value, todoDescription.value)
+        await createTodo(todoId, todoName.value, todoDescription.value, dateCreated)
     }
 
     render() {

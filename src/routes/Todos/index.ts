@@ -3,7 +3,7 @@ import AllTodosQuery from './queries/allTodosQuery'
 import CreateTodoMutation from './mutations/createTodoMutation'
 import NewTodoSubscription from './subscriptions/newTodoSubscription'
 import { compose, graphql } from 'react-apollo'
-import { QueryResponse, WrappedProps, Previous } from './types'
+import { QueryResponse, WrappedProps, Previous, Todo } from './types'
 
 const withTodos = graphql<QueryResponse, WrappedProps>(AllTodosQuery, {
     options: {
@@ -18,6 +18,7 @@ const withTodos = graphql<QueryResponse, WrappedProps>(AllTodosQuery, {
                 updateQuery: (prev: Previous, { subscriptionData: { data: { newTodo } }}) => ({
                     ...prev,
                     allTodos: [newTodo, ...prev.allTodos.filter(todo => todo.todoId !== newTodo.todoId)]
+                        .sort((a: Todo, b: Todo) => +new Date(b.dateCreated) - +new Date(a.dateCreated))
                 })
             })
         }
@@ -26,12 +27,13 @@ const withTodos = graphql<QueryResponse, WrappedProps>(AllTodosQuery, {
 
 const withCreateTodoMutation = graphql(CreateTodoMutation, {
     props: ({ mutate }) => ({
-        createTodo: (todoId: string, name: string, description: string) => {
+        createTodo: (todoId: string, name: string, description: string, dateCreated: string) => {
             return mutate ? mutate({
                 variables: {
                     todoId,
                     name,
-                    description
+                    description,
+                    dateCreated
                 }
             }) : {}
         }

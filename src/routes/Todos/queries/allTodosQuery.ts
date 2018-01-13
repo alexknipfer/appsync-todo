@@ -6,6 +6,7 @@ export default gql`
             todoId
             name
             description
+            dateCreated
         }
     }
 `

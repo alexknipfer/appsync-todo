@@ -4,11 +4,12 @@ export type Todo = {
     todoId: string
     name: string
     description: string
+    dateCreated: string
 }
 
 export type QueryResponse = {
     allTodos: Todo[]
-    createTodo: (todoId: string, todoName: string, todoDescription: string) => Todo
+    createTodo: (todoId: string, todoName: string, todoDescription: string, dateCreated: string) => Todo
     subscribeToNewTodos: () => Todo[]
 }
 
