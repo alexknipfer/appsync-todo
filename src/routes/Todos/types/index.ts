@@ -11,7 +11,7 @@ export type QueryResponse = {
     allTodos: Todo[]
     createTodo: (todoId: string, todoName: string, todoDescription: string, dateCreated: string) => Todo
     deleteTodo: (todoId: string) => Todo
-    subscribeToNewTodos: () => Todo[]
+    subscribeToTodos: () => Todo[]
 }
 
 export type Previous = {

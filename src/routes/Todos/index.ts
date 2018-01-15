@@ -14,7 +14,7 @@ const withTodos = graphql<QueryResponse, WrappedProps>(AllTodosQuery, {
     props: ({ data }) => data ? ({
         loading: data.loading,
         allTodos: data.allTodos,
-        subscribeToNewTodos: params => {
+        subscribeToTodos: params => {
             data.subscribeToMore({
                 document: NewTodoSubscription,
                 updateQuery: (prev: Previous, { subscriptionData: { data: { newTodo } }}) => ({
@@ -22,9 +22,7 @@ const withTodos = graphql<QueryResponse, WrappedProps>(AllTodosQuery, {
                     allTodos: [newTodo, ...prev.allTodos.filter(todo => todo.todoId !== newTodo.todoId)]
                         .sort((a: Todo, b: Todo) => +new Date(b.dateCreated) - +new Date(a.dateCreated))
                 })
-            })
-        },
-        subscribeToDeletedTodo: params => {
+            }),
             data.subscribeToMore({
                 document: DeleteTodoSubscription,
                 updateQuery: (prev: Previous, { subscriptionData: { data: { deletedTodo } }}) => ({

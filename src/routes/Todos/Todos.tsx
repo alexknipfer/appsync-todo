@@ -14,7 +14,7 @@ const InputSection = styled.div`
 
 class Todos extends React.Component<WrappedProps> {
     componentWillMount() {
-        this.props.subscribeToNewTodos()
+        this.props.subscribeToTodos()
     }
 
     createTodo = async () => {
