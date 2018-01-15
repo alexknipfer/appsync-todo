@@ -17,7 +17,7 @@ class Todos extends React.Component<WrappedProps> {
         this.props.subscribeToNewTodos()
     }
 
-    createTodo = async() => {
+    createTodo = async () => {
         const { createTodo } = this.props
 
         const todoId = uuid()
@@ -28,13 +28,19 @@ class Todos extends React.Component<WrappedProps> {
         await createTodo(todoId, todoName.value, todoDescription.value, dateCreated)
     }
 
+    deleteTodo = async (todoId: string) => {
+        const { deleteTodo } = this.props
+
+        await deleteTodo(todoId)
+    }
+
     render() {
         const { allTodos, loading } = this.props
 
         if (loading) {
             return <Loader />
         }
-        
+
         return (
             <DefaultLayout>
                 <InputSection>
@@ -48,7 +54,9 @@ class Todos extends React.Component<WrappedProps> {
                         itemLayout="horizontal"
                         dataSource={allTodos}
                         renderItem={(todo: Todo) => (
-                            <List.Item>
+                            <List.Item
+                                actions={[<a key={todo.todoId} onClick={() => this.deleteTodo(todo.todoId)}>Delete</a>]}
+                            >
                                 <List.Item.Meta
                                     title={todo.name}
                                     description={todo.description}
