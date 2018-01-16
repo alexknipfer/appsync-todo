@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
 const { SubMenu } = Menu
 const { Header, Content, Footer, Sider } = Layout
+import { Link } from 'react-router-dom'
 
 interface IDefaultLayoutProps {
     children: any
@@ -17,6 +18,9 @@ const DefaultLayout: React.SFC<IDefaultLayoutProps> = ({ children }) => (
                 style={{ lineHeight: '64px' }}
             >
                 <Menu.Item key="1">Home</Menu.Item>
+                <Menu.Item key="2">
+                    <Link to="/register">Register</Link>
+                </Menu.Item>
             </Menu>
         </Header>
         <Content style={{ padding: '0 50px' }}>
