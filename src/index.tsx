@@ -14,8 +14,10 @@ import './lib/ant.css'
 
 Amplify.configure({
   Auth: {
-    identityPoolId: awsIdentityPoolConfig.AWS_POOL_ID,
-    region: awsIdentityPoolConfig.AWS_POOL_REGION
+    identityPoolId: awsIdentityPoolConfig.AWS_IDENTITY_POOL_ID,
+    region: awsIdentityPoolConfig.AWS_COGNITO_REGION,
+    userPoolId: awsIdentityPoolConfig.AWS_USER_POOL_ID,
+    userPoolWebClientId: awsIdentityPoolConfig.AWS_WEB_CLIENT_ID
   }
 })
 
